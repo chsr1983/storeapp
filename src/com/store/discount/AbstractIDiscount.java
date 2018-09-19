@@ -1,10 +1,10 @@
 package com.store.discount;
 
-public abstract class AbstractIDiscount implements PDiscount {
+public abstract class AbstractIDiscount implements IDiscount {
 
-	protected PDiscount nextRule;
+	protected IDiscount nextRule;
 
-	public void setNextRule(PDiscount nextRule) {
+	public void setNextRule(IDiscount nextRule) {
 		this.nextRule = nextRule;
 	}
 

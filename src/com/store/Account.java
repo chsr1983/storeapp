@@ -27,17 +27,11 @@ public class Account {
 		this.customer = customer;
 	}
 
-	public String getId() {
-		return id;
-	}
 
 	public void setId(String id) {
 		this.id = id;
 	}
 
-	public Date getCreatedDate() {
-		return createdDate;
-	}
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;

@@ -8,12 +8,12 @@ import com.store.discount.ProlongedCustomerDiscount;
 import com.store.discount.GroceryDiscount;
 import com.store.discount.DiscountInput;
 import com.store.discount.OverallBillDiscount;
-import com.store.discount.PDiscount;
+import com.store.discount.IDiscount;
 
 public class Order {
 
-	private PDiscount percentageDiscount;
-	private PDiscount billDiscount;
+	private IDiscount percentageDiscount;
+	private IDiscount billDiscount;
 
 	private Account account;
 
@@ -30,25 +30,26 @@ public class Order {
 		this.account = account;
 	}
 
-	private List<LineItem> LineItems;
+	private List<LineItem> lineItems;
 
 	public List<LineItem> getLineItems() {
-		return LineItems;
+		return lineItems;
 	}
 
 	public void setLineItems(List<LineItem> lineItems) {
-		LineItems = lineItems;
+		this.lineItems = lineItems;
 	}
 
 	public double getTotalPrice() {
 
 		double totalPrice=0f;
-		for (LineItem lineItem : LineItems) {
+		List<LineItem> orderItems = getLineItems();
+		for (LineItem lineItem : orderItems) {
 			Double price = lineItem.getProduct().getPrice();
 			int quantity = lineItem.getQuantity();
 			String type = lineItem.getProduct().getType();
 			Double prodductPrice = price * quantity;
-			Customer customer = this.account.getCustomer();
+			Customer customer = getAccount().getCustomer();
 
 			DiscountInput productPriceAfterDiscount = new DiscountInput(customer, prodductPrice, type);
 			percentageDiscount.apply(productPriceAfterDiscount);
@@ -59,12 +60,12 @@ public class Order {
 
 	}
 
-	private PDiscount createChainOfRules() {
+	private IDiscount createChainOfRules() {
 
-		PDiscount groceryDiscount = new GroceryDiscount();
-		PDiscount employeeDiscount = new EmployeeDiscount();
-		PDiscount affCustomerDiscount = new AffiliatedCustomerDiscount();
-		PDiscount existCustomerDiscount = new ProlongedCustomerDiscount();
+		IDiscount groceryDiscount = new GroceryDiscount();
+		IDiscount employeeDiscount = new EmployeeDiscount();
+		IDiscount affCustomerDiscount = new AffiliatedCustomerDiscount();
+		IDiscount existCustomerDiscount = new ProlongedCustomerDiscount();
 
 		groceryDiscount.setNextRule(employeeDiscount);
 		employeeDiscount.setNextRule(affCustomerDiscount);
@@ -74,7 +75,7 @@ public class Order {
 		return groceryDiscount;
 	}
 
-	private PDiscount createBillDiscountRule() {
+	private IDiscount createBillDiscountRule() {
 		return new OverallBillDiscount();
 	}
 

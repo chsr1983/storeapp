@@ -43,22 +43,12 @@ public class Customer {
 		return account;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public String getAddress() {
-		return address;
-	}
 
 	public Customer setAddress(String address) {
 		this.address = address;
 		return this;
 	}
 
-	public String getName() {
-		return name;
-	}
 
 	public Customer setName(String name) {
 		this.name = name;
